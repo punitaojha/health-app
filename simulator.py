@@ -7,29 +7,31 @@ import pandas as pd
 
 
 class Simulator:
-    """"""
+    """Simulation for a wearable sensor"""
 
     def __init__(self):
-        """"""
+        """Initialized initial arguments"""
         self.current_timestamp = int(time.time())
         self.user_id = "".join(random.choices(string.ascii_lowercase, k=3))
         self.current_df = pd.DataFrame()
 
     def process_dataframe(self, user, second_count, current_df):
-        """"""
+        """Processor function to create pandas dataframe from dict"""
         new_df = pd.DataFrame(user, index=[second_count])
         current_df = pd.concat([current_df, new_df])
         return current_df
 
     def write_to_json_file(self, users):
-        """"""
+        """Return an output json file with result records updated"""
         with open("simulator_data.json", "w") as outfile:
             simulator_data = {"user_data": users}
             user_object = json.dumps(simulator_data, indent=4)
             outfile.write(user_object)
 
     def compute_for_quater(self, current_df):
-        """"""
+        """Avg heart rate, min heart rate, max heart rate, avg resp rate, start seg,
+			end seg computation for quater of an hour(15 mins)
+		"""
         start_time_counter = 0
         end_time_counter = 15 * 60
         report_df = pd.DataFrame()
@@ -61,7 +63,9 @@ class Simulator:
         report_df.to_csv("15_min_segment.csv")
 
     def generate_data(self):
-        """"""
+        """generate data wearble sensor emits every second for the duration
+			of two hours.
+		"""
         user = {}
         users = []
         for second_count in range(1, 2 * 60 * 60 + 1):
@@ -88,7 +92,9 @@ class Simulator:
         )
 
     def compute_for_hour(self):
-        """"""
+        """Avg heart rate, min heart rate, max heart rate, avg resp rate, start seg,
+			end seg computation of an hour from segments of 15 mins available each
+		"""
         minute_df = pd.read_csv("15_min_segment.csv")
         start_time = 0
         end_time = 4
