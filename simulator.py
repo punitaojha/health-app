@@ -66,9 +66,10 @@ class Simulator:
         """generate data wearble sensor emits every second for the duration
 			of two hours.
 		"""
-        user = {}
+        
         users = []
         for second_count in range(1, 2 * 60 * 60 + 1):
+            user = {}
             user["user_id"] = self.user_id
             user["heart_rate"] = random.randint(60, 101)
             user["timestamp"] = self.current_timestamp + second_count
@@ -78,7 +79,6 @@ class Simulator:
                 user, second_count, self.current_df
             )
             users.append(user)
-
         self.write_to_json_file(users)
         self.compute_for_quater(self.current_df)
 
