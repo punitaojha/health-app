@@ -1,7 +1,8 @@
 import uuid
 import random
 import string
-import time
+from datetime import timezone
+import datetime 
 import json
 import pandas as pd
 
@@ -11,7 +12,9 @@ class Simulator:
 
     def __init__(self):
         """Initialized initial arguments"""
-        self.current_timestamp = int(time.time())
+        self.now = datetime.datetime.now()
+        self.current_dt = datetime.datetime(self.now.year, self.now.month, self.now.day, hour=self.now.hour, minute=0, second=0, microsecond=0, tzinfo=timezone.utc)
+        self.current_timestamp = int(self.current_dt.timestamp())
         self.user_id = "".join(random.choices(string.ascii_lowercase, k=3))
         self.current_df = pd.DataFrame()
 
@@ -68,7 +71,7 @@ class Simulator:
 		"""
         
         users = []
-        for second_count in range(1, 2 * 60 * 60 + 1):
+        for second_count in range(0, 2 * 60 * 60):
             user = {}
             user["user_id"] = self.user_id
             user["heart_rate"] = random.randint(60, 101)
