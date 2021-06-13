@@ -2,7 +2,7 @@ import uuid
 import random
 import string
 from datetime import timezone
-import datetime 
+import datetime
 import json
 import pandas as pd
 
@@ -13,7 +13,16 @@ class Simulator:
     def __init__(self):
         """Initialized initial arguments"""
         self.now = datetime.datetime.now()
-        self.current_dt = datetime.datetime(self.now.year, self.now.month, self.now.day, hour=self.now.hour, minute=0, second=0, microsecond=0, tzinfo=timezone.utc)
+        self.current_dt = datetime.datetime(
+            self.now.year,
+            self.now.month,
+            self.now.day,
+            hour=self.now.hour,
+            minute=0,
+            second=0,
+            microsecond=0,
+            tzinfo=timezone.utc,
+        )
         self.current_timestamp = int(self.current_dt.timestamp())
         self.user_id = "".join(random.choices(string.ascii_lowercase, k=3))
         self.current_df = pd.DataFrame()
@@ -33,8 +42,8 @@ class Simulator:
 
     def compute_for_quater(self, current_df):
         """Avg heart rate, min heart rate, max heart rate, avg resp rate, start seg,
-			end seg computation for quater of an hour(15 mins)
-		"""
+        end seg computation for quater of an hour(15 mins)
+        """
         start_time_counter = 0
         end_time_counter = 15 * 60
         report_df = pd.DataFrame()
@@ -67,9 +76,9 @@ class Simulator:
 
     def generate_data(self):
         """generate data wearble sensor emits every second for the duration
-			of two hours.
-		"""
-        
+        of two hours.
+        """
+
         users = []
         for second_count in range(0, 2 * 60 * 60):
             user = {}
@@ -96,8 +105,8 @@ class Simulator:
 
     def compute_for_hour(self):
         """Avg heart rate, min heart rate, max heart rate, avg resp rate, start seg,
-			end seg computation of an hour from segments of 15 mins available each
-		"""
+        end seg computation of an hour from segments of 15 mins available each
+        """
         minute_df = pd.read_csv("15_min_segment.csv")
         start_time = 0
         end_time = 4
